@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class CapitanBinario {
-    private int pasos, cofre = 0;
+    private int pasos, pasosPorVuelta, cofre = -1;
     private Isla isla = new Isla();
     
     public CapitanBinario(int dificultad) {
@@ -34,7 +34,7 @@ public class CapitanBinario {
             if (!nums.contains(n)) {
                 nums.add(n);
             }
-            if (nums.size() == d / 2) {
+            if (nums.size() == d / 2 && cofre==-1) {
                 cofre = n;
             }
         }
@@ -44,25 +44,34 @@ public class CapitanBinario {
     }
     
     public void busqueda() {
+        int contVuelta=0;
         Nodo aux = isla.raiz;
         Scanner leer = new Scanner(System.in);
         System.out.println("COMIENZO");
         while (aux.getValor() != cofre) {
             if (aux.izq == null && aux.der == null) {
                 System.out.println("Llegaste al final, empieza otra vez");
+                contVuelta++;
                 leer.nextLine();
                 aux = isla.raiz;
-                //pasos = pasos * 2; ¿DESPUES DE LA SEGUNDA VUELTA?
+                if(contVuelta==1){
+                    pasos = pasos*2;
+                }else{
+                    pasos = pasos + pasosPorVuelta;
+                }
+                pasosPorVuelta = 0;                    
             } else if (aux.izq == null && aux.der != null) {
                 System.out.println("Camino izquierdeo bloqueado");
                 leer.nextLine();
                 aux = aux.der;
                 pasos++;
+                pasosPorVuelta++;
             } else if (aux.der == null && aux.izq != null) {
                 System.out.println("Camino derecho bloqueado");
                 leer.nextLine();
                 aux = aux.izq;
                 pasos++;
+                pasosPorVuelta++;
             } else if (aux.der != null && aux.izq != null) {
                 if (aux.getValor() <= cofre) {
                     System.out.println("DERECHA: bien || IZQUIERDA: mal");
@@ -86,12 +95,14 @@ public class CapitanBinario {
                 case "izq": {
                     aux = actual.izq;
                     pasos++;
+                    pasosPorVuelta++;
                     System.out.println("*IZQUIERDA*");
                     break;
                 }
                 case "der": {
                     aux = actual.der;
                     pasos++;
+                    pasosPorVuelta++;
                     System.out.println("*DERECHA*");
                     break;
                 }
