@@ -10,7 +10,7 @@ public class CapitanBinario {
     
     public CapitanBinario(int dificultad) {
         pasos = 0;
-        crearIsla(dificultad);
+        crearIsla2(dificultad);
     }
 
     public int getPasos() {
@@ -30,7 +30,7 @@ public class CapitanBinario {
         Random random = new Random();
         ArrayList<Integer> nums = new ArrayList<>();
         while (nums.size() != d) {
-            n = random.nextInt(d);
+            n = random.nextInt(d)+1;
             if (!nums.contains(n)) {
                 nums.add(n);
             }
@@ -42,6 +42,33 @@ public class CapitanBinario {
             isla.insertar(numero);
         }
     }
+    
+    private void crearIsla2(int d){
+        Random random = new Random();
+        int n=-1;
+        for (int i = 0; i < d*2; i++) {
+            n = random.nextInt(d)+1;
+            isla.insertar(n);           
+        }
+        Nodo aux = isla.raiz;
+        if(n%2==0){
+            aux = buscarHoja(aux,aux.der,aux.izq);            
+        }else{
+            aux = buscarHoja(aux,aux.izq,aux.der);
+        }
+        cofre = aux.valor;
+    }
+    
+    public Nodo buscarHoja(Nodo aux, Nodo direccionDeseada, Nodo direccionInversa){
+        while(aux.der!=null || aux.izq!=null){
+                if(direccionDeseada!=null){
+                    aux = direccionDeseada;//no cambian las direcciones
+                }else{
+                    aux = direccionInversa;
+                }
+            }
+        return aux;
+    }//bucle infinito
     
     public void busqueda() {
         int contVuelta=0;

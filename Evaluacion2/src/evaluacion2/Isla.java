@@ -18,7 +18,7 @@ public class Isla {
         }else{
             if(valor < raiz.valor){
                 raiz.izq = insertarPosta(valor,raiz.izq);
-            }else{
+            }else if(valor > raiz.valor){
                 raiz.der = insertarPosta(valor,raiz.der);
             }
         }
