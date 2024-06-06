@@ -52,32 +52,49 @@ public class CapitanBinario {
         }
         Nodo aux = isla.raiz;
         if(n%2==0){
-            aux = buscarHoja(aux,aux.der,aux.izq);            
+            while(aux.der!=null || aux.izq!=null){
+                if(aux.der!=null){
+                    aux = aux.der;//no cambian las direcciones
+                }else{
+                    aux = aux.izq;//cambia la direccion
+                }
+           }
+            //aux = buscarHoja(aux,aux.der,aux.izq);            
         }else{
-            aux = buscarHoja(aux,aux.izq,aux.der);
+            while(aux.der!=null || aux.izq!=null){
+                if(aux.izq!=null){
+                    aux = aux.izq;//no cambian las direcciones
+                }else{
+                    aux = aux.der;//cambia la direccion
+                }
+           }
+            //aux = buscarHoja(aux,aux.izq,aux.der);
         }
         cofre = aux.valor;
     }
     
-    public Nodo buscarHoja(Nodo aux, Nodo direccionDeseada, Nodo direccionInversa){
-        while(aux.der!=null || aux.izq!=null){
-                if(direccionDeseada!=null){
-                    aux = direccionDeseada;//no cambian las direcciones
-                }else{
-                    aux = direccionInversa;
-                }
-            }
-        return aux;
-    }//bucle infinito
+   // public Nodo buscarHoja(Nodo aux, Nodo direccionDeseada, Nodo direccionInversa){
+        //while(aux.der!=null || aux.izq!=null){
+                //if(direccionDeseada!=null){
+                  //  aux = direccionDeseada;//no cambian las direcciones
+                //}else{
+                 //   aux = direccionInversa;
+                //}
+           // }
+            //return aux;
+    //}//bucle infinito
     
     public void busqueda() {
         int contVuelta=0;
         Nodo aux = isla.raiz;
         Scanner leer = new Scanner(System.in);
+        System.out.println("¡Bienvenido, Capitán! Estás en busca de un tesoro legendario perdido en esta isla misteriosa.");
+        System.out.println("¿Estás listo para comenzar tu búsqueda? Presiona Enter para empezar.");
+        leer.nextLine();
         System.out.println("COMIENZO");
         while (aux.getValor() != cofre) {
             if (aux.izq == null && aux.der == null) {
-                System.out.println("Llegaste al final, empieza otra vez");
+                System.out.println("Llegaste al final, ¡empieza otra vez! Presiona Enter para volver a empezar.");
                 contVuelta++;
                 leer.nextLine();
                 aux = isla.raiz;
@@ -88,32 +105,34 @@ public class CapitanBinario {
                 }
                 pasosPorVuelta = 0;                    
             } else if (aux.izq == null && aux.der != null) {
-                System.out.println("Camino izquierdeo bloqueado");
-                leer.nextLine();
+                System.out.println("El camino hacia la izquierda está bloqueado. Deberías probar el otro camino.");
                 aux = aux.der;
                 pasos++;
                 pasosPorVuelta++;
             } else if (aux.der == null && aux.izq != null) {
-                System.out.println("Camino derecho bloqueado");
-                leer.nextLine();
+                System.out.println("El camino hacia la derecha está bloqueado. Deberías probar el otro camino."); 
                 aux = aux.izq;
                 pasos++;
                 pasosPorVuelta++;
             } else if (aux.der != null && aux.izq != null) {
                 if (aux.getValor() <= cofre) {
-                    System.out.println("DERECHA: bien || IZQUIERDA: mal");
+                    System.out.println("Pista: El tesoro está más hacia la derecha.");
+                    //System.out.println("DERECHA: bien || IZQUIERDA: mal");
                     aux = bifurcacion(leer, aux);
 
                 } else {
-                    System.out.println("DERECHA: mal || IZQUIERDA: bien");
+                    System.out.println("Pista: El tesoro está más hacia la izquierda.");
+                    //System.out.println("DERECHA: mal || IZQUIERDA: bien");
                     aux = bifurcacion(leer, aux);
                 }
+
             }
         }
-        System.out.println("ENCONTRASTE EL COFRE " + pasos);
+        System.out.println("¡Has encontrado el tesoro en solo " + pasos + " pasos! ¡Eres un verdadero capitán legendario!");
     }
     
     private Nodo bifurcacion(Scanner leer, Nodo actual) {
+        System.out.println("¿Quieres ir a la izquierda (izq) o a la derecha (der)?");
         String opcion = "";
         Nodo aux = null;
         while (aux == null) {
@@ -123,18 +142,18 @@ public class CapitanBinario {
                     aux = actual.izq;
                     pasos++;
                     pasosPorVuelta++;
-                    System.out.println("*IZQUIERDA*");
+                    System.out.println("Tomaste el camino a la Izquierda. ¡Sigamos avanzando en nuestra búsqueda del tesoro!");
                     break;
                 }
                 case "der": {
                     aux = actual.der;
                     pasos++;
                     pasosPorVuelta++;
-                    System.out.println("*DERECHA*");
+                    System.out.println("Tomaste el camino a la Derecha. ¡Sigamos avanzando en nuestra búsqueda del tesoro!");
                     break;
                 }
                 default: {
-                    System.out.println("Ingrese una opcion valida");
+                    System.out.println("Ingrese una opcion valida(izq o der)");
                 }
             }
         }
