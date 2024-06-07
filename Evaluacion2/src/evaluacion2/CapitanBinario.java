@@ -58,8 +58,7 @@ public class CapitanBinario {
                 }else{
                     aux = aux.izq;//cambia la direccion
                 }
-           }
-            //aux = buscarHoja(aux,aux.der,aux.izq);            
+           }           
         }else{
             while(aux.der!=null || aux.izq!=null){
                 if(aux.izq!=null){
@@ -68,21 +67,9 @@ public class CapitanBinario {
                     aux = aux.der;//cambia la direccion
                 }
            }
-            //aux = buscarHoja(aux,aux.izq,aux.der);
         }
         cofre = aux.valor;
     }
-    
-   // public Nodo buscarHoja(Nodo aux, Nodo direccionDeseada, Nodo direccionInversa){
-        //while(aux.der!=null || aux.izq!=null){
-                //if(direccionDeseada!=null){
-                  //  aux = direccionDeseada;//no cambian las direcciones
-                //}else{
-                 //   aux = direccionInversa;
-                //}
-           // }
-            //return aux;
-    //}//bucle infinito
     
     public void busqueda() {
         int contVuelta=0;
@@ -94,7 +81,9 @@ public class CapitanBinario {
         System.out.println("COMIENZO");
         while (aux.getValor() != cofre) {
             if (aux.izq == null && aux.der == null) {
-                System.out.println("Llegaste al final, ¡empieza otra vez! Presiona Enter para volver a empezar.");
+                System.out.println("---------------------------------------------------------------------------");
+                System.out.println("Llegaste al final, ¡empieza otra vez! Presiona Enter para volver al principio.");
+                System.out.println("---------------------------------------------------------------------------");
                 contVuelta++;
                 leer.nextLine();
                 aux = isla.raiz;
@@ -105,30 +94,34 @@ public class CapitanBinario {
                 }
                 pasosPorVuelta = 0;                    
             } else if (aux.izq == null && aux.der != null) {
-                System.out.println("El camino hacia la izquierda está bloqueado. Deberías probar el otro camino.");
+                System.out.println("El camino hacia la izquierda está bloqueado. Avanzas a la derecha");
+                leer.nextLine();
                 aux = aux.der;
                 pasos++;
-                pasosPorVuelta++;
+                pasosPorVuelta++;               
             } else if (aux.der == null && aux.izq != null) {
-                System.out.println("El camino hacia la derecha está bloqueado. Deberías probar el otro camino."); 
+                System.out.println("El camino hacia la derecha está bloqueado. Avanzas a la izquierda"); 
+                leer.nextLine();
                 aux = aux.izq;
                 pasos++;
                 pasosPorVuelta++;
             } else if (aux.der != null && aux.izq != null) {
                 if (aux.getValor() <= cofre) {
                     System.out.println("Pista: El tesoro está más hacia la derecha.");
-                    //System.out.println("DERECHA: bien || IZQUIERDA: mal");
                     aux = bifurcacion(leer, aux);
-
                 } else {
                     System.out.println("Pista: El tesoro está más hacia la izquierda.");
-                    //System.out.println("DERECHA: mal || IZQUIERDA: bien");
                     aux = bifurcacion(leer, aux);
                 }
-
             }
         }
-        System.out.println("¡Has encontrado el tesoro en solo " + pasos + " pasos! ¡Eres un verdadero capitán legendario!");
+        System.out.println("---------------------------------------------------------------------------------------------");
+        if (pasos == 1) {
+            System.out.println("¡Has encontrado el tesoro en solo " + pasos + " paso! ¡Eres un verdadero capitán legendario!");
+        }else{
+            System.out.println("¡Has encontrado el tesoro en solo " + pasos + " pasos! ¡Eres un verdadero capitán legendario!");
+        }
+        System.out.println("---------------------------------------------------------------------------------------------");
     }
     
     private Nodo bifurcacion(Scanner leer, Nodo actual) {
